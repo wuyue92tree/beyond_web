@@ -20,7 +20,6 @@ def update_widgets():
 
 def main(extra_args=None):
     update_widgets()
-    print(sys.platform)
     args = [
         'pyinstaller',
         '--specpath', os.path.join(settings.BASE_DIR,
@@ -46,7 +45,7 @@ def main(extra_args=None):
 
 if __name__ == "__main__":
     try:
-        worker_type = sys.argv
+        worker_type = sys.argv[1]
     except IndexError:
         worker_type = 'build'
     if worker_type == 'update_widgets':
