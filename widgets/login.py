@@ -3,7 +3,7 @@
 # Form implementation generated from reading ui file '/Users/wuyue/Project/fun/beyond_web/ui/login.ui',
 # licensing of '/Users/wuyue/Project/fun/beyond_web/ui/login.ui' applies.
 #
-# Created: Wed Nov 20 21:52:55 2019
+# Created: Thu Nov 21 15:52:55 2019
 #      by: pyside2-uic  running on PySide2 5.13.2
 #
 # WARNING! All changes made in this file will be lost!
