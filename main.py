@@ -77,7 +77,6 @@ class MainWindow(QMainWindow, home.Ui_MainWindow):
         self._tool_bar.addWidget(self._search_button)
 
         # _menu && actions
-        # self._create_menu()
         self.menuWindow.insertAction(self.actionZoom_In,
                                      self._bookmark_dock.toggleViewAction())
         self.menuWindow.insertSeparator(self.actionZoom_In)
@@ -100,9 +99,7 @@ class MainWindow(QMainWindow, home.Ui_MainWindow):
         self.statusBar().addPermanentWidget(self._zoom_label)
         self._update_zoom_label()
 
-        self._bookmarksToolBar = QToolBar()
-        self._bookmarksToolBar.setWindowTitle('BookMarksToolBar')
-        self._bookmarksToolBar.setMovable(False)
+        # _bookmarksToolBar
         self.addToolBar(Qt.TopToolBarArea, self._bookmarksToolBar)
         self.insertToolBarBreak(self._bookmarksToolBar)
         self._bookmark_widget.changed.connect(self._update_bookmarks)
@@ -112,86 +109,6 @@ class MainWindow(QMainWindow, home.Ui_MainWindow):
     def _update_bookmarks(self):
         self._bookmark_widget.populate_tool_bar(self._bookmarksToolBar)
         self._bookmark_widget.populate_other(self.menuBookmarks, 3)
-
-    def _create_menu(self):
-        file_menu = self.menuBar().addMenu("&File")
-        exit_action = QAction(QIcon.fromTheme("application-exit"), "E&xit",
-                              self, shortcut="Ctrl+Q", triggered=qApp.quit)
-        file_menu.addAction(exit_action)
-
-        navigation_menu = self.menuBar().addMenu("&Navigation")
-
-        navigation_menu.addSeparator()
-
-        new_tab_action = QAction("New Tab", self,
-                                 shortcut='Ctrl+T',
-                                 triggered=self.add_browser_tab)
-        navigation_menu.addAction(new_tab_action)
-
-        close_tab_action = QAction("Close Current Tab", self,
-                                   shortcut="Ctrl+W",
-                                   triggered=self._close_current_tab)
-        navigation_menu.addAction(close_tab_action)
-
-        navigation_menu.addSeparator()
-
-        history_action = QAction("History...", self,
-                                 triggered=self._tab_widget.show_history)
-        navigation_menu.addAction(history_action)
-
-        edit_menu = self.menuBar().addMenu("&Edit")
-
-        find_action = QAction("Find", self,
-                              shortcut=QKeySequence(QKeySequence.Find),
-                              triggered=self._show_find)
-        edit_menu.addAction(find_action)
-
-        edit_menu.addSeparator()
-
-        self._bookmark_menu = self.menuBar().addMenu("&Bookmarks")
-        add_bookmark_action = QAction("&Add Bookmark", self,
-                                      triggered=self._add_bookmark)
-        self._bookmark_menu.addAction(add_bookmark_action)
-        add_tool_bar_bookmark_action = QAction("&Add Bookmark to Tool Bar",
-                                               self,
-                                               triggered=self._add_tool_bar_bookmark)
-        self._bookmark_menu.addAction(add_tool_bar_bookmark_action)
-        self._bookmark_menu.addSeparator()
-
-        tools_menu = self.menuBar().addMenu("&Tools")
-        download_action = QAction("Open Downloads", self,
-                                  triggered=DownloadWidget.open_download_directory)
-        tools_menu.addAction(download_action)
-
-        window_menu = self.menuBar().addMenu("&Window")
-
-        window_menu.addAction(self._bookmark_dock.toggleViewAction())
-
-        window_menu.addSeparator()
-
-        zoom_in_action = QAction(QIcon.fromTheme("zoom-in"),
-                                 "Zoom In", self,
-                                 shortcut=QKeySequence(QKeySequence.ZoomIn),
-                                 triggered=self._zoom_in)
-        window_menu.addAction(zoom_in_action)
-        zoom_out_action = QAction(QIcon.fromTheme("zoom-out"),
-                                  "Zoom Out", self,
-                                  shortcut=QKeySequence(QKeySequence.ZoomOut),
-                                  triggered=self._zoom_out)
-        window_menu.addAction(zoom_out_action)
-
-        reset_zoom_action = QAction(QIcon.fromTheme("zoom-original"),
-                                    "Reset Zoom", self,
-                                    shortcut="Ctrl+0",
-                                    triggered=self._reset_zoom)
-        window_menu.addAction(reset_zoom_action)
-
-        about_menu = self.menuBar().addMenu("&About")
-        about_action = QAction("About Qt", self,
-                               shortcut=QKeySequence(
-                                   QKeySequence.HelpContents),
-                               triggered=qApp.aboutQt)
-        about_menu.addAction(about_action)
 
     def add_browser_tab(self):
         browser_tab = self._tab_widget.add_browser_tab()
