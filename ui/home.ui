@@ -114,7 +114,7 @@
     <property name="title">
      <string>About</string>
     </property>
-    <addaction name="actionAbout_byondWeb"/>
+    <addaction name="actionAbout"/>
    </widget>
    <addaction name="menuFile"/>
    <addaction name="menuNavigation"/>
@@ -156,11 +156,6 @@
    </attribute>
   </widget>
   <widget class="QStatusBar" name="_status_bar"/>
-  <action name="actionAbout">
-   <property name="text">
-    <string>About</string>
-   </property>
-  </action>
   <action name="actionBack">
    <property name="enabled">
     <bool>false</bool>
@@ -264,9 +259,9 @@
     <string>Ctrl+0</string>
    </property>
   </action>
-  <action name="actionAbout_byondWeb">
+  <action name="actionAbout">
    <property name="text">
-    <string>About byondWeb</string>
+    <string>About</string>
    </property>
    <property name="shortcut">
     <string>Ctrl+H</string>

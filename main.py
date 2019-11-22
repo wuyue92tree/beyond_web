@@ -1,38 +1,18 @@
 import sys
+from widgets.ui import home
+from widgets import AboutWindow
 from widgets.browsertabwidget import BrowserTabWidget
 from widgets.downloadwidget import DownloadWidget
 from widgets.interceptors import WebEngineUrlRequestInterceptor
-from widgets.webengineview import QWebEnginePage, WebEngineView
-from PySide2 import QtCore, QtWebEngineCore
+from widgets.webengineview import WebEngineView
+from PySide2 import QtCore
 from PySide2.QtCore import Qt, QUrl
-from PySide2.QtGui import QCloseEvent, QKeySequence, QIcon
-from PySide2.QtWidgets import (qApp, QAction, QApplication, QDesktopWidget,
-                               QDockWidget, QLabel, QLineEdit, QMainWindow,
-                               QMenu, QMenuBar, QPushButton,
-                               QStatusBar, QToolBar)
-from PySide2.QtWebEngineWidgets import (QWebEngineDownloadItem, QWebEnginePage,
-                                        QWebEngineView)
-
-from widgets import (home, login)
+from PySide2.QtWidgets import (QApplication, QLabel, QLineEdit, QMainWindow)
+from PySide2.QtWebEngineWidgets import (
+    QWebEngineDownloadItem, QWebEnginePage
+)
 
 main_windows = []
-
-
-def create_main_window():
-    """Creates a MainWindow using 75% of the available screen resolution."""
-    main_win = MainWindow()
-    main_windows.append(main_win)
-    available_geometry = app.desktop().availableGeometry(main_win)
-    main_win.resize(available_geometry.width() * 2 / 3,
-                    available_geometry.height() * 3 / 4)
-    main_win.show()
-    return main_win
-
-
-def create_main_window_with_browser():
-    """Creates a MainWindow with a BrowserTabWidget."""
-    main_win = create_main_window()
-    return main_win.add_browser_tab()
 
 
 class MainWindow(QMainWindow, home.Ui_MainWindow):
@@ -85,11 +65,14 @@ class MainWindow(QMainWindow, home.Ui_MainWindow):
         self._tool_bar.insertWidget(self.actionSearch, self._addres_line_edit)
         self.actionSearch.triggered.connect(self.load)
 
+        # _about_window
+        self._about_window = AboutWindow(self)
+
         # _menu && actions
         self.menuWindow.insertAction(self.actionZoom_In,
                                      self._bookmark_dock.toggleViewAction())
         self.menuWindow.insertSeparator(self.actionZoom_In)
-        self.actionExit.triggered.connect(qApp.quit)
+        self.actionExit.triggered.connect(QApplication.quit)
         self.actionNew_Tab.triggered.connect(self.add_browser_tab)
         self.actionClose_Current_Tab.triggered.connect(self._close_current_tab)
         self.actionHistory.triggered.connect(self._tab_widget.show_history)
@@ -102,7 +85,7 @@ class MainWindow(QMainWindow, home.Ui_MainWindow):
         self.actionZoom_In.triggered.connect(self._zoom_in)
         self.actionZoom_Out.triggered.connect(self._zoom_out)
         self.actionReset_Zoom.triggered.connect(self._reset_zoom)
-        self.actionAbout.triggered.connect(qApp.aboutQt)
+        self.actionAbout.triggered.connect(self._about_window.show)
 
         self._zoom_label = QLabel()
         self._status_bar.addPermanentWidget(self._zoom_label)
@@ -227,6 +210,23 @@ class MainWindow(QMainWindow, home.Ui_MainWindow):
 
     def write_bookmarks(self):
         self._bookmark_widget.write_bookmarks()
+
+
+def create_main_window():
+    """Creates a MainWindow using 75% of the available screen resolution."""
+    main_win = MainWindow()
+    main_windows.append(main_win)
+    available_geometry = QApplication.desktop().availableGeometry(main_win)
+    main_win.resize(available_geometry.width() * 2 / 3,
+                    available_geometry.height() * 3 / 4)
+    main_win.show()
+    return main_win
+
+
+def create_main_window_with_browser():
+    """Creates a MainWindow with a BrowserTabWidget."""
+    main_win = create_main_window()
+    return main_win.add_browser_tab()
 
 
 if __name__ == '__main__':
