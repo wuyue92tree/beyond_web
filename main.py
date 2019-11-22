@@ -58,23 +58,34 @@ class MainWindow(QMainWindow, home.Ui_MainWindow):
             self.load_url_in_new_tab)
         self._bookmark_dock.setWidget(self._bookmark_widget)
         self.addDockWidget(Qt.LeftDockWidgetArea, self._bookmark_dock)
-
-        self._find_tool_bar = None
+        self._bookmark_dock.hide()
 
         # _tool_bar && actions
         self.actionBack.triggered.connect(self._tab_widget.back)
         self.actionForward.triggered.connect(self._tab_widget.forward)
         self.actionReload.triggered.connect(self._tab_widget.reload)
-        self._actions = self._tool_bar.actions()
+        self.actionUndo.triggered.connect(self._tab_widget.undo)
+        self.actionRedo.triggered.connect(self._tab_widget.redo)
+        self.actionCut.triggered.connect(self._tab_widget.cut)
+        self.actionCopy.triggered.connect(self._tab_widget.copy)
+        self.actionPaste.triggered.connect(self._tab_widget.paste)
+        self.actionSelectAll.triggered.connect(self._tab_widget.select_all)
+        self._actions = dict()
+        self._actions[QWebEnginePage.Back] = self.actionBack
+        self._actions[QWebEnginePage.Forward] = self.actionForward
+        self._actions[QWebEnginePage.Reload] = self.actionReload
+        self._actions[QWebEnginePage.Undo] = self.actionUndo
+        self._actions[QWebEnginePage.Redo] = self.actionRedo
+        self._actions[QWebEnginePage.Cut] = self.actionCut
+        self._actions[QWebEnginePage.Copy] = self.actionCopy
+        self._actions[QWebEnginePage.Paste] = self.actionPaste
+        self._actions[QWebEnginePage.SelectAll] = self.actionSelectAll
 
         self._addres_line_edit = QLineEdit()
         self._addres_line_edit.setClearButtonEnabled(True)
         self._addres_line_edit.returnPressed.connect(self.load)
-        self._tool_bar.addWidget(self._addres_line_edit)
-
-        self._search_button = QPushButton('Search')
-        self._search_button.clicked.connect(self.load)
-        self._tool_bar.addWidget(self._search_button)
+        self._tool_bar.insertWidget(self.actionSearch, self._addres_line_edit)
+        self.actionSearch.triggered.connect(self.load)
 
         # _menu && actions
         self.menuWindow.insertAction(self.actionZoom_In,
@@ -96,18 +107,24 @@ class MainWindow(QMainWindow, home.Ui_MainWindow):
         self.actionAbout.triggered.connect(qApp.aboutQt)
 
         self._zoom_label = QLabel()
-        self.statusBar().addPermanentWidget(self._zoom_label)
+        self._status_bar.addPermanentWidget(self._zoom_label)
         self._update_zoom_label()
 
-        # _bookmarksToolBar
-        self.addToolBar(Qt.TopToolBarArea, self._bookmarksToolBar)
-        self.insertToolBarBreak(self._bookmarksToolBar)
+        # _bookmarks_tool_bar
+        self.addToolBar(Qt.TopToolBarArea, self._bookmarks_tool_bar)
+        self.insertToolBarBreak(self._bookmarks_tool_bar)
         self._bookmark_widget.changed.connect(self._update_bookmarks)
         self._update_bookmarks()
+
+        # _find_tool_bar
+        self._find_tool_bar.hide()
+        self._find_tool_bar.find.connect(self._tab_widget.find)
+
+        # web_engine_view interceptor
         self.interceptor = WebEngineUrlRequestInterceptor()
 
     def _update_bookmarks(self):
-        self._bookmark_widget.populate_tool_bar(self._bookmarksToolBar)
+        self._bookmark_widget.populate_tool_bar(self._bookmarks_tool_bar)
         self._bookmark_widget.populate_other(self.menuBookmarks, 3)
 
     def add_browser_tab(self):
@@ -146,8 +163,6 @@ class MainWindow(QMainWindow, home.Ui_MainWindow):
         self._addres_line_edit.setText(url.toString())
 
     def _enabled_changed(self, web_action, enabled):
-        # print(web_action)
-        return
         action = self._actions[web_action]
         if action:
             action.setEnabled(enabled)
@@ -208,12 +223,7 @@ class MainWindow(QMainWindow, home.Ui_MainWindow):
         del download_widget
 
     def _show_find(self):
-        if self._find_tool_bar is None:
-            self._find_tool_bar = FindToolBar()
-            self._find_tool_bar.find.connect(self._tab_widget.find)
-            self.addToolBar(Qt.BottomToolBarArea, self._find_tool_bar)
-        else:
-            self._find_tool_bar.show()
+        self._find_tool_bar.show()
         self._find_tool_bar.focus_find()
 
     def write_bookmarks(self):
