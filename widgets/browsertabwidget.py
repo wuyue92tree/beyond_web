@@ -1,6 +1,7 @@
 from functools import partial
 import sys
 
+from windows import UrlCollectorWindow
 from .bookmarkwidget import BookmarkWidget
 from .webengineview import WebEngineView
 from .historywindow import HistoryWindow
@@ -146,8 +147,11 @@ class BrowserTabWidget(QTabWidget):
                 self._history_windows[webengineview] = history_window
             else:
                 history_window.refresh()
-            history_window.show()
-            history_window.raise_()
+            if not history_window.isHidden():
+                history_window.hide()
+            else:
+                history_window.show()
+                history_window.raise_()
 
     def zoom_factor(self):
         return self._webengineviews[

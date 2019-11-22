@@ -1,6 +1,6 @@
 import sys
-from widgets.ui import home
-from widgets import AboutWindow
+from windows.ui import home
+from windows import AboutWindow
 from widgets.browsertabwidget import BrowserTabWidget
 from widgets.downloadwidget import DownloadWidget
 from widgets.interceptors import WebEngineUrlRequestInterceptor

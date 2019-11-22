@@ -71,6 +71,7 @@
     </property>
     <addaction name="actionNew_Tab"/>
     <addaction name="actionClose_Current_Tab"/>
+    <addaction name="separator"/>
     <addaction name="actionHistory"/>
    </widget>
    <widget class="QMenu" name="menuEdit">
@@ -210,6 +211,9 @@
   <action name="actionHistory">
    <property name="text">
     <string>History...</string>
+   </property>
+   <property name="shortcut">
+    <string>Ctrl+1</string>
    </property>
   </action>
   <action name="actionFind">

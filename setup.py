@@ -6,10 +6,10 @@ from conf import settings
 app_name = 'beyondWeb'
 
 
-def update_widgets():
+def update_windows():
     """将ui文件转换为py文件"""
     _dir_ui = os.path.join(settings.BASE_DIR, 'ui')
-    _dir_widgets = os.path.join(settings.BASE_DIR, 'widgets/ui')
+    _dir_widgets = os.path.join(settings.BASE_DIR, 'windows/ui')
     for file in os.listdir(_dir_ui):
         if file.endswith('.ui'):
             os.system('pyside2-uic -o {} {}'.format(
@@ -19,7 +19,7 @@ def update_widgets():
 
 
 def main(extra_args=None):
-    update_widgets()
+    update_windows()
     args = [
         'pyinstaller',
         '--specpath', os.path.join(settings.BASE_DIR,
@@ -48,7 +48,7 @@ if __name__ == "__main__":
         worker_type = sys.argv[1]
     except IndexError:
         worker_type = 'build'
-    if worker_type == 'update_widgets':
-        update_widgets()
+    if worker_type == 'update_windows':
+        update_windows()
         sys.exit(1)
     main()

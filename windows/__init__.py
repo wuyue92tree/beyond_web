@@ -1,6 +1,6 @@
 from PySide2.QtWidgets import QMainWindow
 from .ui import (
-    about, login, urlcollector
+    about, login, urlcollector, history
 )
 
 
@@ -20,3 +20,10 @@ class UrlCollectorWindow(QMainWindow, urlcollector.Ui_MainWindow):
     def __init__(self, parent=None):
         super(UrlCollectorWindow, self).__init__(parent)
         self.setupUi(self)
+
+
+class HistoryWindow(QMainWindow, history.Ui_MainWindow):
+    def __init__(self, parent=None):
+        super(HistoryWindow, self).__init__(parent)
+        self.setupUi(self)
+
