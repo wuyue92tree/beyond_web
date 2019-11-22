@@ -9,7 +9,7 @@ app_name = 'beyondWeb'
 def update_widgets():
     """将ui文件转换为py文件"""
     _dir_ui = os.path.join(settings.BASE_DIR, 'ui')
-    _dir_widgets = os.path.join(settings.BASE_DIR, 'widgets')
+    _dir_widgets = os.path.join(settings.BASE_DIR, 'widgets/ui')
     for file in os.listdir(_dir_ui):
         if file.endswith('.ui'):
             os.system('pyside2-uic -o {} {}'.format(
