@@ -1,8 +1,6 @@
 import sys
-from widgets.bookmarkwidget import BookmarkWidget
 from widgets.browsertabwidget import BrowserTabWidget
 from widgets.downloadwidget import DownloadWidget
-from widgets.findtoolbar import FindToolBar
 from widgets.interceptors import WebEngineUrlRequestInterceptor
 from widgets.webengineview import QWebEnginePage, WebEngineView
 from PySide2 import QtCore, QtWebEngineCore
@@ -205,21 +203,22 @@ class MainWindow(QMainWindow, home.Ui_MainWindow):
 
     def _download_requested(self, item):
         # Remove old downloads before opening a new one
-        for old_download in self.statusBar().children():
-            if type(old_download).__name__ == 'download_widget' and \
+        for old_download in self._status_bar.children():
+            if type(old_download).__name__ == 'DownloadWidget' and \
                 old_download.state() != QWebEngineDownloadItem.DownloadInProgress:
-                self.statusBar().removeWidget(old_download)
+                self._status_bar.removeWidget(old_download)
                 del old_download
 
         item.accept()
-        download_widget = download_widget(item)
-        download_widget.removeRequested.connect(self._remove_download_requested,
-                                                Qt.QueuedConnection)
-        self.statusBar().addWidget(download_widget)
+        download_widget = DownloadWidget(item)
+        download_widget.remove_requested.connect(
+            self._remove_download_requested,
+            Qt.QueuedConnection)
+        self._status_bar.addWidget(download_widget)
 
     def _remove_download_requested(self):
         download_widget = self.sender()
-        self.statusBar().removeWidget(download_widget)
+        self._status_bar.removeWidget(download_widget)
         del download_widget
 
     def _show_find(self):

@@ -1,50 +1,11 @@
-#############################################################################
-##
-## Copyright (C) 2018 The Qt Company Ltd.
-## Contact: http://www.qt.io/licensing/
-##
-## This file is part of the Qt for Python examples of the Qt Toolkit.
-##
-## $QT_BEGIN_LICENSE:BSD$
-## You may use this file under the terms of the BSD license as follows:
-##
-## "Redistribution and use in source and binary forms, with or without
-## modification, are permitted provided that the following conditions are
-## met:
-##   * Redistributions of source code must retain the above copyright
-##     notice, this list of conditions and the following disclaimer.
-##   * Redistributions in binary form must reproduce the above copyright
-##     notice, this list of conditions and the following disclaimer in
-##     the documentation and/or other materials provided with the
-##     distribution.
-##   * Neither the name of The Qt Company Ltd nor the names of its
-##     contributors may be used to endorse or promote products derived
-##     from this software without specific prior written permission.
-##
-##
-## THIS SOFTWARE IS PROVIDED BY THE COPYRIGHT HOLDERS AND CONTRIBUTORS
-## "AS IS" AND ANY EXPRESS OR IMPLIED WARRANTIES, INCLUDING, BUT NOT
-## LIMITED TO, THE IMPLIED WARRANTIES OF MERCHANTABILITY AND FITNESS FOR
-## A PARTICULAR PURPOSE ARE DISCLAIMED. IN NO EVENT SHALL THE COPYRIGHT
-## OWNER OR CONTRIBUTORS BE LIABLE FOR ANY DIRECT, INDIRECT, INCIDENTAL,
-## SPECIAL, EXEMPLARY, OR CONSEQUENTIAL DAMAGES (INCLUDING, BUT NOT
-## LIMITED TO, PROCUREMENT OF SUBSTITUTE GOODS OR SERVICES; LOSS OF USE,
-## DATA, OR PROFITS; OR BUSINESS INTERRUPTION) HOWEVER CAUSED AND ON ANY
-## THEORY OF LIABILITY, WHETHER IN CONTRACT, STRICT LIABILITY, OR TORT
-## (INCLUDING NEGLIGENCE OR OTHERWISE) ARISING IN ANY WAY OUT OF THE USE
-## OF THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE."
-##
-## $QT_END_LICENSE$
-##
-#############################################################################
-
 import sys
 from PySide2 import QtCore
 from PySide2.QtCore import QDir, QFileInfo, QStandardPaths, Qt, QUrl
 from PySide2.QtGui import QDesktopServices
 from PySide2.QtWidgets import (QAction, QLabel, QMenu, QProgressBar,
-    QStyleFactory, QWidget)
+                               QStyleFactory, QWidget)
 from PySide2.QtWebEngineWidgets import QWebEngineDownloadItem
+
 
 # A QProgressBar with context menu for displaying downloads in a QStatusBar.
 class DownloadWidget(QProgressBar):
@@ -64,7 +25,8 @@ class DownloadWidget(QProgressBar):
         description = QFileInfo(path).fileName()
         description_length = len(description)
         if description_length > 30:
-            description = '{}...{}'.format(description[0:10], description[description_length - 10:])
+            description = '{}...{}'.format(description[0:10], description[
+                                                              description_length - 10:])
         self.setFormat('{} %p%'.format(description))
         self.setOrientation(Qt.Horizontal)
         self.setMinimum(0)
@@ -90,8 +52,8 @@ class DownloadWidget(QProgressBar):
     def _update_tool_tip(self):
         path = self._download_item.path()
         tool_tip = "{}\n{}".format(self._download_item.url().toString(),
-            QDir.toNativeSeparators(path))
-        total_bytes = self._download_item.total_bytes()
+                                   QDir.toNativeSeparators(path))
+        total_bytes = self._download_item.totalBytes()
         if total_bytes > 0:
             tool_tip += "\n{}K".format(total_bytes / 1024)
         state = self.state()
@@ -125,19 +87,24 @@ class DownloadWidget(QProgressBar):
         state = self.state()
         context_menu = QMenu()
         launch_action = context_menu.addAction("Launch")
-        launch_action.setEnabled(state == QWebEngineDownloadItem.DownloadCompleted)
+        launch_action.setEnabled(
+            state == QWebEngineDownloadItem.DownloadCompleted)
         show_in_folder_action = context_menu.addAction("Show in Folder")
-        show_in_folder_action.setEnabled(state == QWebEngineDownloadItem.DownloadCompleted)
+        show_in_folder_action.setEnabled(
+            state == QWebEngineDownloadItem.DownloadCompleted)
         cancel_action = context_menu.addAction("Cancel")
-        cancel_action.setEnabled(state == QWebEngineDownloadItem.DownloadInProgress)
+        cancel_action.setEnabled(
+            state == QWebEngineDownloadItem.DownloadInProgress)
         remove_action = context_menu.addAction("Remove")
-        remove_action.setEnabled(state != QWebEngineDownloadItem.DownloadInProgress)
+        remove_action.setEnabled(
+            state != QWebEngineDownloadItem.DownloadInProgress)
 
         chosen_action = context_menu.exec_(event.globalPos())
         if chosen_action == launch_action:
             self._launch()
         elif chosen_action == show_in_folder_action:
-            DownloadWidget.open_file(QFileInfo(self._download_item.path()).absolutePath())
+            DownloadWidget.open_file(
+                QFileInfo(self._download_item.path()).absolutePath())
         elif chosen_action == cancel_action:
             self._download_item.cancel()
         elif chosen_action == remove_action:
