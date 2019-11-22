@@ -17,10 +17,8 @@ _default_bookmarks = [
     ['Tool Bar'],
     ['http://qt.io', 'Qt', ':/qt-project.org/qmessagebox/images/qtlogo-64.png'],
     ['https://www.baidu.com', 'Baidu'],
-    ['https://doc-snapshots.qt.io/qtforpython/', 'Documentation'],
-    ['https://bugreports.qt.io/projects/PYSIDE/', 'Bug Reports'],
-    ['https://www.python.org/', 'Python', None],
-    ['https://wiki.qt.io/PySide2', 'Qt for Python', None],
+    ['https://cn.bing.com/', 'Bing'],
+    ['https://www.google.com.hk/', 'Google'],
     ['Other Bookmarks']
 ]
 
