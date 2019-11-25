@@ -3,7 +3,6 @@ from windows.ui import home
 from windows import AboutWindow
 from widgets.browsertabwidget import BrowserTabWidget
 from widgets.downloadwidget import DownloadWidget
-from widgets.interceptors import WebEngineUrlRequestInterceptor
 from widgets.webengineview import WebEngineView
 from PySide2 import QtCore
 from PySide2.QtCore import Qt, QUrl
@@ -82,6 +81,8 @@ class MainWindow(QMainWindow, home.Ui_MainWindow):
             self._add_tool_bar_bookmark)
         self.actionOpen_Downloads.triggered.connect(
             DownloadWidget.open_download_directory)
+        self.actionOpen_DevTools.triggered.connect(
+            self._tab_widget.show_inspector)
         self.actionZoom_In.triggered.connect(self._zoom_in)
         self.actionZoom_Out.triggered.connect(self._zoom_out)
         self.actionReset_Zoom.triggered.connect(self._reset_zoom)
@@ -101,18 +102,12 @@ class MainWindow(QMainWindow, home.Ui_MainWindow):
         self._find_tool_bar.hide()
         self._find_tool_bar.find.connect(self._tab_widget.find)
 
-        # web_engine_view interceptor
-        self.interceptor = WebEngineUrlRequestInterceptor()
-
     def _update_bookmarks(self):
         self._bookmark_widget.populate_tool_bar(self._bookmarks_tool_bar)
         self._bookmark_widget.populate_other(self.menuBookmarks, 3)
 
     def add_browser_tab(self):
-        browser_tab = self._tab_widget.add_browser_tab()
-        browser_tab.page().profile().defaultProfile().setUrlRequestInterceptor(
-            self.interceptor)
-        return browser_tab
+        return self._tab_widget.add_browser_tab()
 
     def _close_current_tab(self):
         if self._tab_widget.count() > 1:

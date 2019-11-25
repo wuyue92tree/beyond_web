@@ -153,6 +153,12 @@ class BrowserTabWidget(QTabWidget):
                 history_window.show()
                 history_window.raise_()
 
+    def show_inspector(self):
+        index = self.currentIndex()
+        if index >= 0:
+            web_engine_view = self._webengineviews[index]
+            web_engine_view.call_inspector()
+
     def zoom_factor(self):
         return self._webengineviews[
             0].zoomFactor() if self._webengineviews else 1.0
