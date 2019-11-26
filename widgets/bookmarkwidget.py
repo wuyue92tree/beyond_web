@@ -2,11 +2,11 @@ import json
 import os
 import warnings
 
-from PySide2 import QtCore
-from PySide2.QtCore import (QDir, QFileInfo, QModelIndex, QStandardPaths, Qt,
+from PyQt5 import QtCore
+from PyQt5.QtCore import (QDir, QFileInfo, QModelIndex, QStandardPaths, Qt,
                             QUrl)
-from PySide2.QtGui import QIcon, QPixmap, QStandardItem, QStandardItemModel
-from PySide2.QtWidgets import (QAction, QDockWidget, QMenu, QMessageBox,
+from PyQt5.QtGui import QIcon, QPixmap, QStandardItem, QStandardItemModel
+from PyQt5.QtWidgets import (QAction, QDockWidget, QMenu, QMessageBox,
                                QToolBar, QTreeView, QWidget)
 
 _url_role = Qt.UserRole + 1
@@ -94,9 +94,9 @@ def _serialize_model(model, directory):
 class BookmarkWidget(QTreeView):
     """Provides a tree view to manage the bookmarks."""
 
-    open_bookmark = QtCore.Signal(QUrl)
-    open_bookmark_in_new_tab = QtCore.Signal(QUrl)
-    changed = QtCore.Signal()
+    open_bookmark = QtCore.pyqtSignal(QUrl)
+    open_bookmark_in_new_tab = QtCore.pyqtSignal(QUrl)
+    changed = QtCore.pyqtSignal()
 
     def __init__(self, parent=None):
         super(BookmarkWidget, self).__init__(parent)

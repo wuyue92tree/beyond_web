@@ -5,20 +5,20 @@ from windows import UrlCollectorWindow
 from .bookmarkwidget import BookmarkWidget
 from .webengineview import WebEngineView
 from .historywindow import HistoryWindow
-from PySide2 import QtCore, QtWebEngineCore
-from PySide2.QtCore import QPoint, Qt, QUrl
-from PySide2.QtWidgets import (QAction, QMenu, QTabBar, QTabWidget)
-from PySide2.QtWebEngineWidgets import (QWebEngineDownloadItem,
-                                        QWebEngineHistory, QWebEnginePage,
-                                        QWebEngineProfile)
+from PyQt5 import QtCore, QtWebEngineCore
+from PyQt5.QtCore import QPoint, Qt, QUrl
+from PyQt5.QtWidgets import (QAction, QMenu, QTabBar, QTabWidget)
+from PyQt5.QtWebEngineWidgets import (QWebEngineDownloadItem,
+                                      QWebEngineHistory, QWebEnginePage,
+                                      QWebEngineProfile)
 
 
 class BrowserTabWidget(QTabWidget):
     """Enables having several tabs with QWebEngineView."""
 
-    url_changed = QtCore.Signal(QUrl)
-    enabled_changed = QtCore.Signal(QWebEnginePage.WebAction, bool)
-    download_requested = QtCore.Signal(QWebEngineDownloadItem)
+    url_changed = QtCore.pyqtSignal(QUrl)
+    enabled_changed = QtCore.pyqtSignal(QWebEnginePage.WebAction, bool)
+    download_requested = QtCore.pyqtSignal(QWebEngineDownloadItem)
 
     def __init__(self, window_factory_function):
         super(BrowserTabWidget, self).__init__()

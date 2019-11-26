@@ -1,9 +1,11 @@
 import sys
 import os
-from PySide2.QtWebEngineWidgets import QWebEnginePage, QWebEngineView, \
+# from PyQt5.QtWebEngineWidgets import QWebEnginePage
+
+from PyQt5.QtWebEngineWidgets import QWebEnginePage, QWebEngineView, \
     QWebEngineSettings
 
-from PySide2 import QtCore, QtWebEngineCore
+from PyQt5 import QtCore, QtWebEngineCore
 
 from widgets.interceptors import WebEngineUrlRequestInterceptor
 
@@ -13,13 +15,14 @@ _web_actions = [QWebEnginePage.Back, QWebEnginePage.Forward,
                 QWebEnginePage.Cut, QWebEnginePage.Copy,
                 QWebEnginePage.Paste, QWebEnginePage.SelectAll]
 
+
 DEBUG_PORT = '5588'
 DEBUG_URL = 'http://127.0.0.1:{}'.format(DEBUG_PORT)
 os.environ['QTWEBENGINE_REMOTE_DEBUGGING'] = DEBUG_PORT
 
 
 class WebEngineView(QWebEngineView):
-    enabled_changed = QtCore.Signal(QWebEnginePage.WebAction, bool)
+    enabled_changed = QtCore.pyqtSignal(QWebEnginePage.WebAction, bool)
 
     @staticmethod
     def web_actions():
@@ -55,6 +58,9 @@ class WebEngineView(QWebEngineView):
         # enable plugins
         self.settings().setAttribute(QWebEngineSettings.PluginsEnabled, True)
 
+        page.loadStarted.connect(self._load_started)
+        page.loadFinished.connect(self._load_finished)
+
     def is_web_action_enabled(self, web_action):
         return self.page().action(web_action).isEnabled()
 
@@ -70,9 +76,8 @@ class WebEngineView(QWebEngineView):
         self.enabled_changed.emit(web_action, action.isEnabled())
 
     def call_inspector(self):
-        if not self.inspector:
+        if not self.inspector or self.inspector.isHidden():
             self.inspector = QWebEngineView()
-
             self.inspector.setWindowTitle('Web Inspector')
             self.inspector.load(QtCore.QUrl(DEBUG_URL))
             self.page().setDevToolsPage(self.inspector.page())
@@ -81,3 +86,12 @@ class WebEngineView(QWebEngineView):
         else:
             self.inspector.close()
             self.inspector = None
+
+    def _load_started(self):
+        print('页面开始加载')
+
+    def _load_finished(self, ok):
+        if ok:
+            print(self.page().title())
+            print(self.page().toHtml(lambda x: print(x)))
+            print('页面加载完成')

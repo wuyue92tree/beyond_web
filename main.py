@@ -4,10 +4,10 @@ from windows import AboutWindow
 from widgets.browsertabwidget import BrowserTabWidget
 from widgets.downloadwidget import DownloadWidget
 from widgets.webengineview import WebEngineView
-from PySide2 import QtCore
-from PySide2.QtCore import Qt, QUrl
-from PySide2.QtWidgets import (QApplication, QLabel, QLineEdit, QMainWindow)
-from PySide2.QtWebEngineWidgets import (
+from PyQt5 import QtCore
+from PyQt5.QtCore import Qt, QUrl
+from PyQt5.QtWidgets import (QApplication, QLabel, QLineEdit, QMainWindow)
+from PyQt5.QtWebEngineWidgets import (
     QWebEngineDownloadItem, QWebEnginePage
 )
 
@@ -26,8 +26,9 @@ class MainWindow(QMainWindow, home.Ui_MainWindow):
         self._tab_widget.enabled_changed.connect(self._enabled_changed)
         self._tab_widget.download_requested.connect(self._download_requested)
         self.setCentralWidget(self._tab_widget)
-        self.connect(self._tab_widget, QtCore.SIGNAL("url_changed(QUrl)"),
-                     self.url_changed)
+        # self.connect(self._tab_widget, QtCore.pyqtSignal("url_changed(QUrl)"),
+        #              self.url_changed)
+        self._tab_widget.url_changed.connect(self.url_changed)
 
         # _bookmark_dock && _bookmark_widget
         self._bookmark_widget.open_bookmark.connect(self.load_url)

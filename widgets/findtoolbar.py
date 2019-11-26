@@ -1,15 +1,15 @@
-from PySide2 import QtCore
-from PySide2.QtCore import Qt, QUrl
-from PySide2.QtGui import QIcon, QKeySequence
-from PySide2.QtWidgets import (QAction, QCheckBox, QDockWidget, QHBoxLayout,
+from PyQt5 import QtCore
+from PyQt5.QtCore import Qt, QUrl
+from PyQt5.QtGui import QIcon, QKeySequence
+from PyQt5.QtWidgets import (QAction, QCheckBox, QDockWidget, QHBoxLayout,
                                QLabel, QLineEdit, QToolBar, QToolButton,
                                QWidget)
-from PySide2.QtWebEngineWidgets import QWebEnginePage
+from PyQt5.QtWebEngineWidgets import QWebEnginePage
 
 
 # A Find tool bar (bottom area)
 class FindToolBar(QToolBar):
-    find = QtCore.Signal(str, QWebEnginePage.FindFlags)
+    find = QtCore.pyqtSignal(str, QWebEnginePage.FindFlags)
 
     def __init__(self, parent=None):
         super(FindToolBar, self).__init__(parent)

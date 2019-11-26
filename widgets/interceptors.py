@@ -1,4 +1,4 @@
-from PySide2 import QtWebEngineCore
+from PyQt5 import QtWebEngineCore
 
 
 class WebEngineUrlRequestInterceptor(

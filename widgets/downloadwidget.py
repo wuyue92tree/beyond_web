@@ -1,17 +1,17 @@
 import sys
-from PySide2 import QtCore
-from PySide2.QtCore import QDir, QFileInfo, QStandardPaths, Qt, QUrl
-from PySide2.QtGui import QDesktopServices
-from PySide2.QtWidgets import (QAction, QLabel, QMenu, QProgressBar,
+from PyQt5 import QtCore
+from PyQt5.QtCore import QDir, QFileInfo, QStandardPaths, Qt, QUrl
+from PyQt5.QtGui import QDesktopServices
+from PyQt5.QtWidgets import (QAction, QLabel, QMenu, QProgressBar,
                                QStyleFactory, QWidget)
-from PySide2.QtWebEngineWidgets import QWebEngineDownloadItem
+from PyQt5.QtWebEngineWidgets import QWebEngineDownloadItem
 
 
 # A QProgressBar with context menu for displaying downloads in a QStatusBar.
 class DownloadWidget(QProgressBar):
     """Lets you track progress of a QWebEngineDownloadItem."""
-    finished = QtCore.Signal()
-    remove_requested = QtCore.Signal()
+    finished = QtCore.pyqtSignal()
+    remove_requested = QtCore.pyqtSignal()
 
     def __init__(self, download_item):
         super(DownloadWidget, self).__init__()

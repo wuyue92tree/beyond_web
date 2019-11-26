@@ -1,15 +1,15 @@
-from PySide2.QtWebEngineWidgets import (QWebEnginePage, QWebEngineView,
-    QWebEngineHistory, QWebEngineHistoryItem)
+from PyQt5.QtWebEngineWidgets import (QWebEnginePage, QWebEngineView,
+                                      QWebEngineHistory, QWebEngineHistoryItem)
 
-from PySide2.QtWidgets import QApplication, QDesktopWidget, QTreeView
+from PyQt5.QtWidgets import QApplication, QDesktopWidget, QTreeView
 
-from PySide2.QtCore import (Signal, QAbstractTableModel, QModelIndex, Qt,
-    QRect, QUrl)
+from PyQt5.QtCore import (pyqtSignal, QAbstractTableModel, QModelIndex, Qt,
+                          QRect, QUrl)
 
 
 class HistoryModel(QAbstractTableModel):
 
-    def __init__(self, history, parent = None):
+    def __init__(self, history, parent=None):
         super(HistoryModel, self).__init__(parent)
         self._history = history
 
@@ -40,8 +40,7 @@ class HistoryModel(QAbstractTableModel):
 
 
 class HistoryWindow(QTreeView):
-
-    open_url = Signal(QUrl)
+    open_url = pyqtSignal(QUrl)
 
     def __init__(self, history, parent):
         super(HistoryWindow, self).__init__(parent)

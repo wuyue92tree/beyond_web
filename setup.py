@@ -12,7 +12,7 @@ def update_windows():
     _dir_widgets = os.path.join(settings.BASE_DIR, 'windows/ui')
     for file in os.listdir(_dir_ui):
         if file.endswith('.ui'):
-            os.system('pyside2-uic -o {} {}'.format(
+            os.system('pyuic5 -o {} {}'.format(
                 os.path.join(_dir_widgets, file).rstrip('.ui') + '.py',
                 os.path.join(_dir_ui, file)
             ))
@@ -28,7 +28,7 @@ def main(extra_args=None):
                                    'dist/' + sys.platform),
         '--workpath', os.path.join(settings.BASE_DIR, 'build/' + sys.platform),
         '-n', app_name,
-        '--hidden-import', 'PySide2.QtPrintSupport',
+        '--hidden-import', 'PyQt5.QtPrintSupport',
         '--additional-hooks-dir', 'hooks'
     ]
 

@@ -1,4 +1,4 @@
-from PySide2.QtWidgets import QMainWindow
+from PyQt5.QtWidgets import QMainWindow
 from .ui import (
     about, login, urlcollector, history
 )
