@@ -159,6 +159,12 @@ class BrowserTabWidget(QTabWidget):
             web_engine_view = self._webengineviews[index]
             web_engine_view.call_inspector()
 
+    def show_images(self):
+        index = self.currentIndex()
+        if index >= 0:
+            web_engine_view = self._webengineviews[index]
+            web_engine_view.call_images()
+
     def zoom_factor(self):
         return self._webengineviews[
             0].zoomFactor() if self._webengineviews else 1.0

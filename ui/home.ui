@@ -103,6 +103,7 @@
     </property>
     <addaction name="actionOpen_Downloads"/>
     <addaction name="actionOpen_DevTools"/>
+    <addaction name="actionOpen_Images"/>
    </widget>
    <widget class="QMenu" name="menuWindow">
     <property name="title">
@@ -349,6 +350,11 @@
    </property>
    <property name="shortcut">
     <string>Ctrl+Alt+I</string>
+   </property>
+  </action>
+  <action name="actionOpen_Images">
+   <property name="text">
+    <string>Open Images</string>
    </property>
   </action>
  </widget>

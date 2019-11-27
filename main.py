@@ -84,6 +84,7 @@ class MainWindow(QMainWindow, home.Ui_MainWindow):
             DownloadWidget.open_download_directory)
         self.actionOpen_DevTools.triggered.connect(
             self._tab_widget.show_inspector)
+        self.actionOpen_Images.triggered.connect(self._tab_widget.show_images)
         self.actionZoom_In.triggered.connect(self._zoom_in)
         self.actionZoom_Out.triggered.connect(self._zoom_out)
         self.actionReset_Zoom.triggered.connect(self._reset_zoom)

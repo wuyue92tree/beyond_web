@@ -1,6 +1,6 @@
 from PyQt5.QtWidgets import QMainWindow
 from .ui import (
-    about, login, urlcollector, history
+    about, login, urlcollector, history, images
 )
 
 
@@ -27,3 +27,8 @@ class HistoryWindow(QMainWindow, history.Ui_MainWindow):
         super(HistoryWindow, self).__init__(parent)
         self.setupUi(self)
 
+
+class ImagesWindow(QMainWindow, images.Ui_MainWindow):
+    def __init__(self, parent=None):
+        super(ImagesWindow, self).__init__(parent)
+        self.setupUi(self)
